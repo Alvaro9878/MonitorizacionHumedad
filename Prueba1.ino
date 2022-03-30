@@ -32,15 +32,19 @@ void loop() {
 
 void soilMoistureGet(){
 
-  const int ValorAire = 835;
-  const int ValorAgua = 405;
+  double ValorAire = 835;
+  double ValorAgua = 405;
 
-  int adc0;
+  double adc0;
   adc0 = ads.readADC_SingleEnded(0);
 
   if(adc0 >= ValorAgua && adc0 <= ValorAire)
   {
-    soilMoisture = map(adc0,ValorAire,ValorAgua,0,100);
+    //soilMoisture = map(adc0,ValorAire,ValorAgua,0,100);
+  soilMoisture =    map( adc0,  ValorAire,  ValorAgua,  0,  100);
+
+    soilMoisture =  (adc0 - ValorAire) * (0 - 100) / (ValorAire - ValorAgua) ;
+
   }
   else{
     if(adc0 > ValorAire)
