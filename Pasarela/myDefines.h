@@ -1,8 +1,8 @@
 /**********************************************************************
    CONFIGS.- WiFi & MQTT PROTOCOL
 ***********************************************************************/
-#define WIFI_SSID           "DIGIFIBRA-6Utc"
-#define WIFI_PASSWORD       "7bDaqN5tdE"
+#define WIFI_SSID           "XXXXXXXX"
+#define WIFI_PASSWORD       "XXXXXXXX"
 
 #define WIFI_CHANNEL 6
 
