@@ -8,23 +8,24 @@ extern "C" {
 #include <espnow.h>
 }
 
-#define SET_SECURE_WIFI false
+#define SET_SECURE_WIFI true
 
-#if SET_SECURE_WIFI == false
+//#if SET_SECURE_WIFI == false
+//#if SET_SECURE_WIFI == true
 #include <WiFiClient.h>
 WiFiClient espClient;
-#define MQTT_SERVER          "iot.ac.uma.es" //"huertociencias.uma.es"
-#define MQTT_PORT            1883 //8163
-#define MQTT_USER            "infind" //"huerta"
-#define MQTT_PASSWORD        "zancudo" //"accesohuertica"
-#else
-#include <WiFiClientSecure.h>
-BearSSL::WiFiClientSecure espClient;
+#define MQTT_SERVER          "XXX.XXX.XXXX.XXX"
+#define MQTT_PORT            1883 
+#define MQTT_USER            "XXXXX" 
+#define MQTT_PASSWORD        "XXXXX"
+//#else
+//#include <WiFiClientSecure.h>
+//BearSSL::WiFiClientSecure espClient;
 //#define MQTT_SERVER         "huertociencias.uma.es"
 //#define MQTT_PORT           8163
 //#define MQTT_USER           "huerta"
 //#define MQTT_PASSWORD       "accesohuertica"
-#endif
+//#endif
 /**********************************************************************
    VARS
 ***********************************************************************/
@@ -37,7 +38,7 @@ uint8_t LMK_KEY_STR[16] = {0x33, 0x44, 0x33, 0x44, 0x33, 0x44, 0x33, 0x44, 0x33,
 
 
 uint8_t gatewayCustomMac[] = {0x36, 0x33, 0x33, 0x33, 0x33, 0x33}; //Custom mac address for
-uint8_t macDHT11[] =  {0x2C, 0xF4, 0x32, 0x3C, 0x53, 0x94}; //{0xDC, 0x4F, 0x22, 0x76, 0x23, 0x47};;  your MAC{0x2C, 0xF4, 0x32, 0x3C, 0x53, 0x94}
+//uint8_t macDHT11[] =  {0x2C, 0xF4, 0x32, 0x3C, 0x53, 0x94}; //{0xDC, 0x4F, 0x22, 0x76, 0x23, 0x47};;  your MAC{0x2C, 0xF4, 0x32, 0x3C, 0x53, 0x94}
 
 struct __attribute__((packed)) PEER_INFO {
   String macaddr; 
@@ -49,6 +50,8 @@ struct __attribute__((packed)) PEER_INFO {
 
 volatile boolean haveReading = false;
 int heartBeat;
+
+
 
 /**********************************************************************
   ARDUINO SETUP & MAIN LOOP
@@ -81,10 +84,6 @@ void loop() {
     Serial.println("Waiting for ESP-NOW messages...");
     heartBeat = millis();
 
-    messageReceived.macaddr =  "{0x2C, 0xF4, 0x32, 0x3C, 0x53, 0x94}";
-    messageReceived.message = "10!"; 
-    messageReceived.topic = "prueba";
-
   }
 
   if (haveReading) {
@@ -109,7 +108,7 @@ void initEspNow() {
   }
   esp_now_set_kok(PMK_KEY_STR, 16);
   esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
-  esp_now_add_peer(macDHT11, ESP_NOW_ROLE_COMBO, WIFI_CHANNEL, LMK_KEY_STR, 0);
+  //esp_now_add_peer(macDHT11, ESP_NOW_ROLE_COMBO, WIFI_CHANNEL, LMK_KEY_STR, 0);
   //Especificamos las claves para enviar la información de manera encriptada.
   esp_now_set_peer_key(gatewayCustomMac, LMK_KEY_STR, 16);
 
@@ -146,6 +145,8 @@ void OnDataRecv(uint8_t *mac_addr, uint8_t *data, uint8_t data_len) {
   Serial.println(messageReceived.topic);
   Serial.print("Message to send: ");
   Serial.println(messageReceived.message);
+  Serial.print("Mac Adress: ");
+  Serial.println(messageReceived.macaddr);
   haveReading = true;
 }
 
@@ -161,7 +162,7 @@ void wifiConnect() {
   Serial.print("\nWiFi connected, IP address: "); Serial.println(WiFi.localIP());
 //  espClient.setFingerprint(OTA_FINGERPRINT);
 //  espClient.setInsecure();
-//  espClient.setTimeout(12);
+  espClient.setTimeout(12);
   checkForUpdates();
 }
 
@@ -173,10 +174,12 @@ void sendToBroker() {
   char mensaje_mqtt[512];
   sprintf(mensaje_mqtt, "{\"mac\":\"%s\",\"mensaje\":%s}", messageReceived.macaddr.c_str(), messageReceived.message.c_str());
   Serial.println("Publish");
+//  Serial.println(send_topic);
   if (!client.connected()) {
     reconnectMQTT();
   }
   client.publish(send_topic, mensaje_mqtt);
+  Serial.println(mensaje_mqtt);
 }
 
 
@@ -198,6 +201,7 @@ void reconnectMQTT() {
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish(conexion_topic, "Online", true);
+//      Serial.println(conexion_topic);
     } else {
       Serial.print("failed, rc = ");
       Serial.print(client.state());
@@ -209,6 +213,8 @@ void reconnectMQTT() {
 }
 
 void checkForUpdates() {
+  Serial.println("-----------------V1.0-----------------");
+  
   // wait for WiFi connection
   if ((WiFi.status() == WL_CONNECTED)) {
     ESPhttpUpdate.setLedPin(LED_BUILTIN, LOW);
@@ -217,8 +223,9 @@ void checkForUpdates() {
     ESPhttpUpdate.onEnd(update_finished);
     ESPhttpUpdate.onProgress(update_progress);
     ESPhttpUpdate.onError(update_error);
-    t_httpUpdate_return ret = ESPhttpUpdate.update(espClient, OTA_URL);
-    switch (ret) {
+    //t_httpUpdate_return ret = ESPhttpUpdate.update(espClient, OTA_URL);
+    //switch (ret) {
+    switch(ESPhttpUpdate.update(espClient, HTTP_OTA_ADDRESS, HTTP_OTA_PORT, HTTP_OTA_PATH, HTTP_OTA_VERSION)) {
       case HTTP_UPDATE_FAILED:
         Serial.printf("HTTP_UPDATE_FAILD Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
         break;
