@@ -18,8 +18,10 @@ Adafruit_ADS1015 ads;
 
 
 // GPIOs
-#define LEDCheck 2
+#define LEDCheck 14
+#define Sensor 12
 #define LEDSalida 15
+#define Sensor_2 13
 
 
 //canal que se va a utilizar para el ESP-NOW
@@ -39,20 +41,30 @@ uint8_t macPasarela[] = {0x36, 0x33, 0x33, 0x33, 0x33, 0x33};
 //MAC de la ESP que está en la pasarela y se encarga del ESP-NOW
 uint8_t macDHT11[] = {0x3E, 0x33, 0x33, 0x33, 0x33, 0x34};
 //Variable dónde se especifica el tiempo que se deja entre actualización y actualización del DHT11.
-int frecuenciaActualizacion=30;
+int frecuenciaActualizacion=30000;
 //char para construir el mensaje que se va a enviar por ESP-NOW
 char mensaje[512];
 //Variables para controlar el tiempo.
 unsigned long waitMs=0;
 //Variable que se utilizará para controlar en tiempo cada envío de información.
-int countTime = 100;
+int countTime = 200;
 int countAliveTime = 0;
 //Valor actual del LED de salida
-int currentLEDValue = 0;
+int currentLEDValue = 1;
 //Valor que llega por ESP-NOW del LED de salida
 int espNowLEDValue = 0;
 
 float soilMoisture = 0;
+float soilMoisture_1 = 0;
+float soilMoisture_2 = 0;
+float soilMoisture_3 = 0;
+
+double adc0;
+double adc1;
+double adc2;
+double adc3;
+
+volatile bool enviado = false;
 
 void setup() {
 	
@@ -61,8 +73,18 @@ void setup() {
 	
 	//Inicializamos el LED y el DHT11.
 	pinMode(LEDCheck, OUTPUT);  
+  digitalWrite(LEDCheck, HIGH);
+
+    pinMode(Sensor, OUTPUT);  
+  digitalWrite(Sensor, HIGH);
+
+    pinMode(Sensor_2, OUTPUT);  
+  digitalWrite(Sensor_2, HIGH);
+
   pinMode(LEDSalida, OUTPUT); 
+
   ads.setGain(GAIN_TWOTHIRDS);
+  ads.setDataRate(7);
   ads.begin();
 	
 	//Put WiFi in AP mode.
@@ -91,6 +113,8 @@ void setup() {
   //Comprueba si un paquete de datos enviado ha sido recibido correctamente por un par
 	esp_now_register_send_cb([](uint8_t* mac, uint8_t sendStatus) {
 		Serial.printf("Mensaje enviado, estado (0=OK, 1=ERROR) = %i\n", sendStatus);
+    enviado = true;
+
 	});
   
 	//Si llega un mensaje por ESP-NOW a esta ESP, cambiamos el valor del LED.
@@ -98,53 +122,59 @@ void setup() {
 }
 
 void loop() {
+     
   
   //Un condicional para controlar cada cuanto tiempo se envía información del sensor.
   if(countTime<millis()){
 
     //Encedemos el LED
-    digitalWrite(LEDCheck, HIGH);
     
 
-     soilMoistureGet();   
-
-    
+    soilMoistureGet();   
+    digitalWrite(LEDCheck, LOW); 
+    digitalWrite(Sensor, LOW);
+    digitalWrite(Sensor_2, LOW);    
     //Creamos y mostramos el JSON que se va a enviar.
-    sprintf(mensaje,"orchard/espnow/datos|{\"hum\":\"%g\"}", soilMoisture);
+
+    
+    sprintf(mensaje,"orchard/espnow/datos|{\"hum1\":\"%g\",\"hum2\":\"%g\",\"hum3\":\"%g\",\"hum4\":\"%g\"}", adc0, adc1, adc2, adc3);
     Serial.printf("Mensaje: %s\n",mensaje);
     
     //Enviamos el JSON por ESP_NOW
     esp_now_send(macPasarela, (uint8_t *) mensaje, strlen(mensaje)+1);
-    
+
+     ESP.deepSleep(9e+8);
     //Apagamos el LED
-    digitalWrite(LEDCheck, LOW); 
+
+
+
 
     //Calculamos el tiempo para envíar la siguiente información.
-    countTime = millis() + frecuenciaActualizacion*100;
-	
-  	//Si da la casualidad de que, después de enviar los datos del sensor, también va a enviar el mensaje de que está vivo, lo retrasamos un segundo para que no haya interferencias.
-  	if(countAliveTime!=0 && countAliveTime<millis()){ countAliveTime=millis()+1000; }
+//    countTime = millis() + frecuenciaActualizacion;
+//	
+//  	//Si da la casualidad de que, después de enviar los datos del sensor, también va a enviar el mensaje de que está vivo, lo retrasamos un segundo para que no haya interferencias.
+//  	if(countAliveTime!=0 && countAliveTime<millis()){ countAliveTime=millis()+1000; }
   }
   
-  //Un condicional para controlar cada cuanto tiempo se envía un keepalive.
-  if(countAliveTime<millis()){
-
-    //Encedemos el LED
-    digitalWrite(LEDCheck, HIGH);
-    
-    //Creamos y mostramos el JSON que se va a enviar.
-    sprintf(mensaje,"orchard/espnow/estado|{\"status\":\"alive\",\"freq\":\"%i\"}", frecuenciaActualizacion);
-    Serial.printf("Mensaje: %s\n",mensaje);
-    
-    //Enviamos el JSON por ESP_NOW
-    esp_now_send(macPasarela, (uint8_t *) mensaje, strlen(mensaje)+1);
-
-    //Apagamos el LED
-    digitalWrite(LEDCheck, LOW);
-
-    //Calculamos el tiempo para envíar la siguiente información.
-    countAliveTime = millis() + ALIVE_SECS*1000;
-  }
+//  //Un condicional para controlar cada cuanto tiempo se envía un keepalive.
+//  if(countAliveTime<millis()){
+//
+//    //Encedemos el LED
+//    digitalWrite(LEDCheck, HIGH);
+//    
+//    //Creamos y mostramos el JSON que se va a enviar.
+//    sprintf(mensaje,"orchard/espnow/estado|{\"status\":\"alive\",\"freq\":\"%i\"}", frecuenciaActualizacion);
+//    Serial.printf("Mensaje: %s\n",mensaje);
+//    
+//    //Enviamos el JSON por ESP_NOW
+//    esp_now_send(macPasarela, (uint8_t *) mensaje, strlen(mensaje)+1);
+//
+//    //Apagamos el LED
+//    digitalWrite(LEDCheck, LOW);
+//
+//    //Calculamos el tiempo para envíar la siguiente información.
+//    countAliveTime = millis() + ALIVE_SECS*1000;
+//  }
   
 }
 
@@ -152,15 +182,20 @@ void loop() {
 void OnRecv(uint8_t *mac_addr,  uint8_t *data, uint8_t data_len) {
 
   Serial.printf("\r\nReceived\t%d Bytes\t%d", data_len, data[0]);
+
+
 }
 
 void soilMoistureGet(){
 
-  double ValorAire = 835;
-  double ValorAgua = 405;
+  double ValorAire = 970;
+  double ValorAgua = 338;
 
-  double adc0;
+
   adc0 = ads.readADC_SingleEnded(0);
+  adc1 = ads.readADC_SingleEnded(1);
+  adc2 = ads.readADC_SingleEnded(2);
+  adc3 = ads.readADC_SingleEnded(3);
 
   if(adc0 >= ValorAgua && adc0 <= ValorAire)
   {
@@ -170,13 +205,76 @@ void soilMoistureGet(){
     soilMoisture =  (adc0 - ValorAire) * (0 - 100) / (ValorAire - ValorAgua) ;
 
   }
+
+    else if(adc0 <= ValorAgua && adc0 >= 150)
+    soilMoisture = NULL;
+    
   else{
     if(adc0 > ValorAire)
       soilMoisture = 0;
     else if(adc0 < ValorAgua)
       soilMoisture = 100;
   }
+  if(adc1 >= ValorAgua && adc1 <= ValorAire)
+  {
+    //soilMoisture = map(adc0,ValorAire,ValorAgua,0,100);
+  soilMoisture_1 =    map( adc1,  ValorAire,  ValorAgua,  0,  100);
+
+    soilMoisture_1 =  (adc1 - ValorAire) * (0 - 100) / (ValorAire - ValorAgua) ;
+
+  }
+
+  else if(adc1 <= ValorAgua && adc1 >= 150)
+    soilMoisture_1 = NULL;
+    
+  else{
+    if(adc1 > ValorAire)
+      soilMoisture_1 = 0;
+    else if(adc1 < ValorAgua)
+      soilMoisture_1 = 100;
+  }
+  if(adc2 >= ValorAgua && adc2 <= ValorAire)
+  {
+    //soilMoisture = map(adc0,ValorAire,ValorAgua,0,100);
+  soilMoisture_2 =    map( adc2,  ValorAire,  ValorAgua,  0,  100);
+
+    soilMoisture_2 =  (adc2 - ValorAire) * (0 - 100) / (ValorAire - ValorAgua) ;
+
+  }
+    else if(adc2 <= ValorAgua && adc2 >= 150)
+    soilMoisture_2 = NULL;
+    
+  else{
+    if(adc2 > ValorAire)
+      soilMoisture_2 = 0;
+    else if(adc2 < ValorAgua)
+      soilMoisture_2 = 100;
+  }
+  if(adc3 >= ValorAgua && adc3 <= ValorAire)
+  {
+    //soilMoisture = map(adc0,ValorAire,ValorAgua,0,100);
+  soilMoisture_3 =    map( adc3,  ValorAire,  ValorAgua,  0,  100);
+
+    soilMoisture_3 =  (adc3 - ValorAire) * (0 - 100) / (ValorAire - ValorAgua) ;
+
+  }
+
+  else if(adc3 <= ValorAgua && adc3 >= 150)
+    soilMoisture_3 = NULL;
+  
+  else{
+    if(adc3 > ValorAire)
+      soilMoisture_3 = 0;
+    else if(adc3 < ValorAgua)
+      soilMoisture_3 = 100;
+  }
   Serial.print("\nAIN0: "); Serial.println(adc0);
-  Serial.print("HUMEDAD: "); Serial.println(soilMoisture);
+  Serial.print("\nHUMEDAD0: "); Serial.println(soilMoisture);
+  Serial.print("\nAIN1: "); Serial.println(adc1);
+  Serial.print("\nHUMEDAD1: "); Serial.println(soilMoisture_1);
+  Serial.print("\nAIN2: "); Serial.println(adc2);
+  Serial.print("\nHUMEDAD2: "); Serial.println(soilMoisture_2);
+  Serial.print("\nAIN3: "); Serial.println(adc3);
+  Serial.print("\nHUMEDAD3: "); Serial.println(soilMoisture_3);
 }
   
