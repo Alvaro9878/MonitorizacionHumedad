@@ -10,22 +10,14 @@ extern "C" {
 
 #define SET_SECURE_WIFI true
 
-//#if SET_SECURE_WIFI == false
-//#if SET_SECURE_WIFI == true
+
 #include <WiFiClient.h>
 WiFiClient espClient;
-#define MQTT_SERVER          "XXX.XXX.XXXX.XXX"
+#define MQTT_SERVER          "XXXX.XXXX.XXXX.XXXX"
 #define MQTT_PORT            1883 
-#define MQTT_USER            "XXXXX" 
-#define MQTT_PASSWORD        "XXXXX"
-//#else
-//#include <WiFiClientSecure.h>
-//BearSSL::WiFiClientSecure espClient;
-//#define MQTT_SERVER         "huertociencias.uma.es"
-//#define MQTT_PORT           8163
-//#define MQTT_USER           "huerta"
-//#define MQTT_PASSWORD       "accesohuertica"
-//#endif
+#define MQTT_USER            NULL 
+#define MQTT_PASSWORD        NULL 
+
 /**********************************************************************
    VARS
 ***********************************************************************/
@@ -172,7 +164,7 @@ void sendToBroker() {
   String pub_topic = ("orchard/" + TYPE_NODE + "/" + messageReceived.macaddr + "/" + messageReceived.topic);    // Select topic by ESP MAC
   const char* send_topic = pub_topic.c_str();
   char mensaje_mqtt[512];
-  sprintf(mensaje_mqtt, "{\"mac\":\"%s\",\"mensaje\":%s}", messageReceived.macaddr.c_str(), messageReceived.message.c_str());
+  sprintf(mensaje_mqtt, "{\"mac\":\"%s\",\"mensaje\":%s,\"SSID\":\"%s\",\"RSSI\":\"%g\",\"VCC\":\"%g\"}", messageReceived.macaddr.c_str(), messageReceived.message.c_str(), WIFI_SSID,WiFi.RSSI(),ESP.getVcc());
   Serial.println("Publish");
 //  Serial.println(send_topic);
   if (!client.connected()) {
@@ -198,6 +190,7 @@ void reconnectMQTT() {
     Serial.print(" como ");
     Serial.println(clientId);
     if (client.connect(clientId.c_str(), MQTT_USER, MQTT_PASSWORD, conexion_topic, 2, true, "Offline", true)) {
+
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish(conexion_topic, "Online", true);
