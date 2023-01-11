@@ -14,5 +14,8 @@ Para desarrollar el sistema se necesita los siguientes dispositivos:
     - Cargador/Booster solar 5V de DFRobot DFR0559
     - 2 placas fotovoltaicas de 6V cada una
     
+    ![Uploading image.png…]()
+
+    
 ## Autores
 Álvaro Martínez Gamero
