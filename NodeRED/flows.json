@@ -1,0 +1,3141 @@
+[
+    {
+        "id": "726c157e34a12d27",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "83fdfef7691705b1",
+        "type": "mqtt in",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "topic": "orchard/espnow/BCDDC22473F7/orchard/espnow/datos",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "fc5c9554.5f0878",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 320,
+        "wires": [
+            [
+                "ec9b52bb4f8b88e9",
+                "4cee537a717a8e5c"
+            ]
+        ]
+    },
+    {
+        "id": "ec9b52bb4f8b88e9",
+        "type": "json",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 550,
+        "y": 320,
+        "wires": [
+            [
+                "896e880718423d1c"
+            ]
+        ]
+    },
+    {
+        "id": "f4fa2e90fa8a8e5d",
+        "type": "ui_text",
+        "z": "726c157e34a12d27",
+        "group": "e98df59828b48025",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Conexión:",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 1100,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "90d25c8c6f33f137",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Hora y fecha",
+        "func": "var fecha = new Date (msg.payload);\nmsg.payload = fecha.toLocaleString(\"es-ES\",{\"timeZone\":\"Europe/Madrid\"});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 100,
+        "wires": [
+            [
+                "82ed2e2613264272"
+            ]
+        ]
+    },
+    {
+        "id": "4cee537a717a8e5c",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 100,
+        "wires": [
+            [
+                "90d25c8c6f33f137"
+            ]
+        ]
+    },
+    {
+        "id": "82ed2e2613264272",
+        "type": "ui_text",
+        "z": "726c157e34a12d27",
+        "group": "e98df59828b48025",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Último Dato: ",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 930,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d646bc66cbc8b454",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.mac",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 940,
+        "y": 260,
+        "wires": [
+            [
+                "f303e6bad0860870"
+            ]
+        ]
+    },
+    {
+        "id": "f303e6bad0860870",
+        "type": "ui_text",
+        "z": "726c157e34a12d27",
+        "group": "e98df59828b48025",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "MAC:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 1110,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "e6a0925eaecfe720",
+        "type": "ui_slider",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Limite",
+        "tooltip": "",
+        "group": "cee302c54243b49a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "all",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 70,
+        "y": 1340,
+        "wires": [
+            [
+                "d6bc49f08527ce43"
+            ]
+        ]
+    },
+    {
+        "id": "3ddb96f62e095481",
+        "type": "link out",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "3b2dcf9e9c474168"
+        ],
+        "x": 1135,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "3b2dcf9e9c474168",
+        "type": "link in",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "links": [
+            "3ddb96f62e095481"
+        ],
+        "x": 65,
+        "y": 1380,
+        "wires": [
+            [
+                "6dfc14758d6bbfc5"
+            ]
+        ]
+    },
+    {
+        "id": "7e740840f0c1bb82",
+        "type": "ui_led",
+        "z": "726c157e34a12d27",
+        "order": 7,
+        "group": "e98df59828b48025",
+        "width": 0,
+        "height": 0,
+        "label": "ALARMA",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "1",
+                "valueType": "num"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": false,
+        "name": "",
+        "x": 490,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "ae0719bb8623441d",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "func": "msg.payload = flow.get(\"Limite\");\nvar limite = msg.payload;\nvar humedad = msg.variable;\n\nif (humedad < limite){\nmsg.payload = 1;\n}\nelse \nmsg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1360,
+        "wires": [
+            [
+                "7e740840f0c1bb82",
+                "0cdbbf713cb076e6"
+            ]
+        ]
+    },
+    {
+        "id": "d6bc49f08527ce43",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "Limite",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 1300,
+        "wires": [
+            [
+                "ae0719bb8623441d"
+            ]
+        ]
+    },
+    {
+        "id": "6dfc14758d6bbfc5",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "variable",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 1420,
+        "wires": [
+            [
+                "ae0719bb8623441d"
+            ]
+        ]
+    },
+    {
+        "id": "a5c2be624816e6b6",
+        "type": "mongodb out",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "payonly": true,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 1010,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "896e880718423d1c",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "+ humedad",
+        "func": "msg.payload.date = new Date();\nvar vcc1 = msg.payload.mensaje.hum1;\nvar vcc2 = msg.payload.mensaje.hum2;\nvar vcc3 = msg.payload.mensaje.hum3;\nvar vcc4 = msg.payload.mensaje.hum4;\n//var ValorAire = 973;\nvar ValorAire = flow.get(\"humedad100\");\nvar ValorAgua = flow.get(\"humedad0\");\n\n\nif (vcc1 >= ValorAgua && vcc1 <= ValorAire)\nmsg.payload.primersensor = (vcc1 - ValorAire)*(0-100)/(ValorAire-ValorAgua);\nelse\n    if (vcc1 > ValorAire)\n    msg.payload.primersensor = 0;\n    else if(vcc1 < ValorAgua)\n    msg.payload.primersensor = 100;\n    \nif (vcc2 >= ValorAgua && vcc2 <= ValorAire)\nmsg.payload.segundosensor = (vcc2 - ValorAire)*(0-100)/(ValorAire-ValorAgua);\nelse\n    if (vcc2 > ValorAire)\n    msg.payload.segundosensor = 0;\n    else if(vcc2 < ValorAgua)\n    msg.payload.segundosensor = 100;\n    \nif (vcc3 >= ValorAgua && vcc3 <= ValorAire)\nmsg.payload.tercersensor = (vcc3 - ValorAire)*(0-100)/(ValorAire-ValorAgua);\nelse\n    if (vcc3 > ValorAire)\n    msg.payload.tercersensor = 0;\n    else if(vcc3 < ValorAgua)\n    msg.payload.tercersensor = 100;\n    \nif (vcc4 >= ValorAgua && vcc4 <= ValorAire)\nmsg.payload.cuartosensor = (vcc4 - ValorAire)*(0-100)/(ValorAire-ValorAgua);\nelse\n    if (vcc4 > ValorAire)\n    msg.payload.cuartosensor = 0;\n    else if(vcc4 < ValorAgua)\n    msg.payload.cuartosensor = 100;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 320,
+        "wires": [
+            [
+                "a5c2be624816e6b6",
+                "71aea07e5f02c77b",
+                "d646bc66cbc8b454",
+                "ae146ffd42726889",
+                "5c70acabef60b0f0"
+            ]
+        ]
+    },
+    {
+        "id": "30bcbce8d712940e",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "15",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 130,
+        "y": 1620,
+        "wires": [
+            [
+                "730bdc2c8d38e045"
+            ]
+        ]
+    },
+    {
+        "id": "782d876c30b1c74f",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 410,
+        "y": 1560,
+        "wires": [
+            [
+                "dc4ff2b9c3c1de90",
+                "9b983141df036680",
+                "200c32a1079d7d90"
+            ]
+        ]
+    },
+    {
+        "id": "dc4ff2b9c3c1de90",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "genera datos gráfica",
+        "func": "\nvar arrayhum=[];\nvar arrayhum2 = [];\n\n// los arrays usados en la represenstación gráfica deben contener objetos JSON con dos campos: {x , y}\n// en x debemos poner la hora en formato \"timestamp\". Si tenemos un objeto fecha se puede convertir usando el método getTime()\n// en y debemos poner el valor de la variable\n// mas info en: https://github.com/node-red/node-red-dashboard/blob/master/Charts.md\n\nif(Array.isArray(msg.payload) && msg.payload.length>0)\n{\n    for (var i = 0; i < msg.payload.length; i++) { // añade datos a los arrays\n        arrayhum.push({x : msg.payload[i].date , y : msg.payload[i].primersensor});\n        arrayhum2.push({x : msg.payload[i].date , y : msg.payload[i].segundosensor});\n    }\n}\n    \nmsg.payload = [{\n        \"series\":[\"Sensor 1\", \"Sensor 2\"],\n        \"data\":[arrayhum, arrayhum2],\n        \"labels\":[\"\"]\n        }];\n\nreturn msg;  \n\n",
+        "outputs": "1",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 1620,
+        "wires": [
+            [
+                "5398f131f5ed27b1"
+            ]
+        ]
+    },
+    {
+        "id": "730bdc2c8d38e045",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "func": "var ms_per_minute = 60000;\nvar now_ms = new Date().getTime();\nvar unaño = new Date(now_ms-525600*ms_per_minute);\n\n\nmsg.payload={ \"date\":{\"$gte\" : unaño}};\nmsg.sort = {\"date\": -1};\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 1640,
+        "wires": [
+            [
+                "782d876c30b1c74f"
+            ]
+        ]
+    },
+    {
+        "id": "de206cd83fd48502",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "func": "var ms_per_minute = 60000;\nvar now_ms = new Date().getTime();\nvar undia = new Date(now_ms-1440*ms_per_minute);\n\n\nmsg.payload={ \"date\":{\"$gte\" : undia}};\nmsg.sort = {\"date\": -1};\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1760,
+        "wires": [
+            [
+                "929bcefc3548e626"
+            ]
+        ]
+    },
+    {
+        "id": "929bcefc3548e626",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 530,
+        "y": 1700,
+        "wires": [
+            [
+                "4adf193d30e4eb7b"
+            ]
+        ]
+    },
+    {
+        "id": "e671cc169a315525",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "func": "var ms_per_minute = 60000;\nvar now_ms = new Date().getTime();\nvar unasemana = new Date(now_ms-10080*ms_per_minute);\n\n\nmsg.payload={ \"date\":{\"$gte\" : unasemana}};\nmsg.sort = {\"date\": -1};\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1900,
+        "wires": [
+            [
+                "f20b7a43fbccf238"
+            ]
+        ]
+    },
+    {
+        "id": "f20b7a43fbccf238",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 530,
+        "y": 1840,
+        "wires": [
+            [
+                "3d2394cea31d3184"
+            ]
+        ]
+    },
+    {
+        "id": "5e030aab12a3ad97",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "func": "var ms_per_minute = 60000;\nvar now_ms = new Date().getTime();\nvar unmes = new Date(now_ms-43800*ms_per_minute);\n\n\nmsg.payload={ \"date\":{\"$gte\" : unmes}};\nmsg.sort = {\"date\": -1};\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 2060,
+        "wires": [
+            [
+                "d6d6c3d8ee7ae961"
+            ]
+        ]
+    },
+    {
+        "id": "d6d6c3d8ee7ae961",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 530,
+        "y": 2000,
+        "wires": [
+            [
+                "40a94cdbe3c52f10"
+            ]
+        ]
+    },
+    {
+        "id": "1569db7f3142c222",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "mensaje bienvenida",
+        "func": "if(msg.payload.content.substring(0,1)!=\"/\")\n{\n msg.payload.content=\"Consulta la humedad del sistema colocado en el huerto de Ciencias de la Universidad de Málaga. Puedo responderte a estos comandos:\\n/start\\n/Sensor1\\n/Sensor2\\n/Sensor3\\n/Sensor4\";\n return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 2280,
+        "wires": [
+            [
+                "7bcd19ea81a9f49c"
+            ]
+        ]
+    },
+    {
+        "id": "f35b981e4dbcf6bd",
+        "type": "telegram receiver",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "bot": "dd877e6d33e40be2",
+        "saveDataDir": "",
+        "filterCommands": true,
+        "x": 190,
+        "y": 2200,
+        "wires": [
+            [
+                "1569db7f3142c222"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "7bcd19ea81a9f49c",
+        "type": "telegram sender",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "bot": "dd877e6d33e40be2",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 990,
+        "y": 2460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4ea946a17714490d",
+        "type": "telegram command",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "command": "/start",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "dd877e6d33e40be2",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 170.20741271972656,
+        "y": 2294.8522872924805,
+        "wires": [
+            [
+                "1569db7f3142c222"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "6016202b4f28358e",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "ultimo registro",
+        "func": "msg.mensaje=msg.payload;\nmsg.limit=1;\nmsg.sort={\"date\":-1};\nmsg.payload={};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 2420,
+        "wires": [
+            [
+                "2f4b1be54a2cca50"
+            ]
+        ]
+    },
+    {
+        "id": "3e8b50574d9fd923",
+        "type": "telegram command",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "command": "/Sensor1",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "dd877e6d33e40be2",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 160,
+        "y": 2380,
+        "wires": [
+            [
+                "6016202b4f28358e"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "15cfbcffc8c37a66",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "mensaje respuesta",
+        "func": "\nvar humedad = msg.payload[0].primersensor\nvar fecha=msg.payload[0].date;\n\nmsg.payload=msg.mensaje;\n\nmsg.payload.content=\"La humedad es de \" +humedad+\"%\\n\";\nmsg.payload.content+=\"Fecha de consulta: \"+fecha.toLocaleString('es-ES', { timeZone: 'Europe/Madrid', hour12: false });\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 2420,
+        "wires": [
+            [
+                "7bcd19ea81a9f49c"
+            ]
+        ]
+    },
+    {
+        "id": "2f4b1be54a2cca50",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 530,
+        "y": 2360,
+        "wires": [
+            [
+                "15cfbcffc8c37a66"
+            ]
+        ]
+    },
+    {
+        "id": "94047749622d40be",
+        "type": "ui_button",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "e9ce9b57afa10f3e",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Último Mes",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 110,
+        "y": 2100,
+        "wires": [
+            [
+                "5e030aab12a3ad97"
+            ]
+        ]
+    },
+    {
+        "id": "f1c533c6a845c593",
+        "type": "ui_button",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "e9ce9b57afa10f3e",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Última Semana",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 120,
+        "y": 1940,
+        "wires": [
+            [
+                "e671cc169a315525"
+            ]
+        ]
+    },
+    {
+        "id": "9f3f982e7d8534b4",
+        "type": "ui_button",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "e9ce9b57afa10f3e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Últimas 24H",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 110,
+        "y": 1820,
+        "wires": [
+            [
+                "de206cd83fd48502"
+            ]
+        ]
+    },
+    {
+        "id": "5398f131f5ed27b1",
+        "type": "ui_chart",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "1ac9c6af567b4ba5",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "REGISTRO",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 940,
+        "y": 1620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4a99665ede5dd6e5",
+        "type": "ui_chart",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "e9ce9b57afa10f3e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Historial",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1040,
+        "y": 1860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8fc008183d6b0b8b",
+        "type": "http response",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "statusCode": "",
+        "headers": {
+            "Content-Disposition": "attachment; filename=registros.csv"
+        },
+        "x": 1230,
+        "y": 2880,
+        "wires": []
+    },
+    {
+        "id": "428d6107d0910749",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Unicode y separador",
+        "func": "//add Unicode BOM character (byte order mark) to make EXCEL knows this is UTF-8\nif(global.get(\"separador_decimal\")==\"punto\")\n{\n    msg.payload='\\ufeff'+msg.payload;\n\n}\nelse\n{\n    msg.payload='\\ufeff'+(msg.payload).replace(/\\./g,\",\");\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 2880,
+        "wires": [
+            [
+                "8fc008183d6b0b8b"
+            ]
+        ]
+    },
+    {
+        "id": "1421a58c8b6b61bd",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "consulta",
+        "func": "// fecha por defecto es hoy\nvar ahora = new Date();\n// pillo los globales si los hay, si no la fecha de hoy\nvar desde = new Date(global.get(\"desde\") || ahora);\nvar hasta = new Date(global.get(\"hasta\") || ahora); \n// el día de inicio desde las cero horas\nvar inicio = new Date(desde.getFullYear(),desde.getMonth(),desde.getDate(),0,0,0,0);\n// el día final es hasta final del día\nvar final = new Date(hasta.getFullYear(),hasta.getMonth(),hasta.getDate(),23,59,59,999);\n\nmsg.payload=\n[\n    { \"$match\": { \"date\": { \"$gte\": inicio , \"$lte\": final } } },\n    { \"$project\": {\n        \"_id\": 0,\n        \"date\": 1,\n        \"humedad sensor1\": \"$primersensor\",\n        \"humedad sensor2\": \"$segundosensor\",\n        }\n    },\n    { \"$sort\": {\"date\": 1} }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 2880,
+        "wires": [
+            [
+                "08cce9d97c3ea75b"
+            ]
+        ]
+    },
+    {
+        "id": "e270798b93c0c09a",
+        "type": "http in",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "url": "/regs",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 136.99996185302734,
+        "y": 2879.999979019165,
+        "wires": [
+            [
+                "1421a58c8b6b61bd"
+            ]
+        ]
+    },
+    {
+        "id": "08cce9d97c3ea75b",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "aggregate",
+        "x": 595.0141830444336,
+        "y": 2880.005661010742,
+        "wires": [
+            [
+                "192bd7e9e0374809"
+            ]
+        ]
+    },
+    {
+        "id": "192bd7e9e0374809",
+        "type": "csv",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "sep": ";",
+        "hdrin": "",
+        "hdrout": "all",
+        "multi": "one",
+        "ret": "\\r\\n",
+        "temp": "date,humedad sensor1,humedad sensor2",
+        "skip": 0,
+        "strings": true,
+        "include_empty_strings": false,
+        "include_null_values": false,
+        "x": 860.9999694824219,
+        "y": 2879.9999561309814,
+        "wires": [
+            [
+                "428d6107d0910749"
+            ]
+        ]
+    },
+    {
+        "id": "bec90588f72d81e3",
+        "type": "ui_switch",
+        "z": "726c157e34a12d27",
+        "name": "separdor decimal",
+        "label": "{{msg.topic}}",
+        "tooltip": "",
+        "group": "c9d87a424739d845",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": "false",
+        "topic": "",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": true,
+        "className": "",
+        "x": 250,
+        "y": 3420,
+        "wires": [
+            [
+                "7fca6f3dd24fdba5"
+            ]
+        ]
+    },
+    {
+        "id": "231e0c964f96898d",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 230.99706649780273,
+        "y": 3342.9118814468384,
+        "wires": [
+            [
+                "7fca6f3dd24fdba5"
+            ]
+        ]
+    },
+    {
+        "id": "7fca6f3dd24fdba5",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "set global separador_decimal",
+        "func": "if(msg.payload===true)\n{\n    global.set(\"separador_decimal\",\"coma\");\n    msg.topic=\"separador decimal = coma\";\n}\nelse\n{\n    global.set(\"separador_decimal\",\"punto\");\n    msg.topic=\"separador decimal = punto\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 547.9970779418945,
+        "y": 3335.0229482650757,
+        "wires": [
+            [
+                "bec90588f72d81e3"
+            ]
+        ]
+    },
+    {
+        "id": "7619d208056dd94c",
+        "type": "ui_date_picker",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Fecha inicio",
+        "group": "c9d87a424739d845",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "topic": "",
+        "topicType": "str",
+        "className": "",
+        "x": 387.77831268310547,
+        "y": 3110.7559638023376,
+        "wires": [
+            [
+                "01c9b80735e81549"
+            ]
+        ]
+    },
+    {
+        "id": "a708e5eb08a4262e",
+        "type": "ui_date_picker",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Fecha final",
+        "group": "c9d87a424739d845",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "topic": "",
+        "topicType": "str",
+        "className": "",
+        "x": 390.78966522216797,
+        "y": 3159.7502012252808,
+        "wires": [
+            [
+                "a711af70c91c1dc8"
+            ]
+        ]
+    },
+    {
+        "id": "01c9b80735e81549",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "desde",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 583.7839889526367,
+        "y": 3109.417851448059,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a711af70c91c1dc8",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "hasta",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 587.0112686157227,
+        "y": 3160.3014059066772,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2a62700ce5d7ee28",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "string"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 189.78681182861328,
+        "y": 3135.1764039993286,
+        "wires": [
+            [
+                "7619d208056dd94c",
+                "a708e5eb08a4262e"
+            ]
+        ]
+    },
+    {
+        "id": "659cb7ff78eb4626",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Controles para seleccionar fechas",
+        "info": "",
+        "x": 246.78680038452148,
+        "y": 3038.653688430786,
+        "wires": []
+    },
+    {
+        "id": "3a03fbbed53ff7aa",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Flujo para descarga de fichero",
+        "info": "",
+        "x": 228.01416778564453,
+        "y": 2822.0056324005127,
+        "wires": []
+    },
+    {
+        "id": "bbfe40f1ef624538",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Selector de separador decimal",
+        "info": "",
+        "x": 243.01123046875,
+        "y": 3282.5740060806274,
+        "wires": []
+    },
+    {
+        "id": "d5e0b428554d6a49",
+        "type": "ui_template",
+        "z": "726c157e34a12d27",
+        "group": "c9d87a424739d845",
+        "name": "",
+        "order": 3,
+        "width": "0",
+        "height": "0",
+        "format": "<style>\n.button {\n    text-align: center;\n    font: bold 17px Arial;\n    text-decoration: none;\n    background-color: #339966;\n    color: white;\n    padding: 8px 10px;\n    border: 2px solid #CCCCCC;\n  }\n  \n  .button:hover\n  {\n   background-color: #26734d;\n  }\n\n</style>\n<a href=\"/regs\" class=\"button\">Descarga registros en CSV (EXCEL)</a>\n",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 161.99969863891602,
+        "y": 2940.0000495910645,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "71aea07e5f02c77b",
+        "type": "debug",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "9b983141df036680",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[0].mensaje.hum",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 1540,
+        "wires": [
+            [
+                "81948079b3db9058"
+            ]
+        ]
+    },
+    {
+        "id": "81948079b3db9058",
+        "type": "smooth",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "property": "payload",
+        "action": "mean",
+        "count": "100",
+        "round": "",
+        "mult": "single",
+        "reduce": true,
+        "x": 920,
+        "y": 1540,
+        "wires": [
+            [
+                "b534247e38732e4f"
+            ]
+        ]
+    },
+    {
+        "id": "b534247e38732e4f",
+        "type": "ui_text",
+        "z": "726c157e34a12d27",
+        "group": "e98df59828b48025",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Media",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 1090,
+        "y": 1540,
+        "wires": []
+    },
+    {
+        "id": "4da20e32ebcdfd2a",
+        "type": "ui_text",
+        "z": "726c157e34a12d27",
+        "group": "e98df59828b48025",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "SSID:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 1110,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ae146ffd42726889",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.SSID",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 940,
+        "y": 300,
+        "wires": [
+            [
+                "4da20e32ebcdfd2a"
+            ]
+        ]
+    },
+    {
+        "id": "724c87aef8481959",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 110,
+        "y": 1160,
+        "wires": [
+            [
+                "09e90703d546ace8"
+            ]
+        ]
+    },
+    {
+        "id": "4adf193d30e4eb7b",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "genera datos gráfica",
+        "func": "\nvar arrayhum=[];\nvar arrayhum2 = [];\n\n// los arrays usados en la represenstación gráfica deben contener objetos JSON con dos campos: {x , y}\n// en x debemos poner la hora en formato \"timestamp\". Si tenemos un objeto fecha se puede convertir usando el método getTime()\n// en y debemos poner el valor de la variable\n// mas info en: https://github.com/node-red/node-red-dashboard/blob/master/Charts.md\n\nif(Array.isArray(msg.payload) && msg.payload.length>0)\n{\n    for (var i = 0; i < msg.payload.length; i++) { // añade datos a los arrays\n        arrayhum.push({x : msg.payload[i].date , y : msg.payload[i].primersensor});\n        arrayhum2.push({x : msg.payload[i].date , y : msg.payload[i].segundosensor});\n    }\n}\n    \nmsg.payload = [{\n        \"series\":[\"Sensor 1\", \"Sensor 2\"],\n        \"data\":[arrayhum, arrayhum2],\n        \"labels\":[\"\"]\n        }];\n\nreturn msg;  \n\n",
+        "outputs": "1",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 1740,
+        "wires": [
+            [
+                "4a99665ede5dd6e5"
+            ]
+        ]
+    },
+    {
+        "id": "3d2394cea31d3184",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "genera datos gráfica",
+        "func": "\nvar arrayhum=[];\nvar arrayhum2 = [];\n\n// los arrays usados en la represenstación gráfica deben contener objetos JSON con dos campos: {x , y}\n// en x debemos poner la hora en formato \"timestamp\". Si tenemos un objeto fecha se puede convertir usando el método getTime()\n// en y debemos poner el valor de la variable\n// mas info en: https://github.com/node-red/node-red-dashboard/blob/master/Charts.md\n\nif(Array.isArray(msg.payload) && msg.payload.length>0)\n{\n    for (var i = 0; i < msg.payload.length; i++) { // añade datos a los arrays\n        arrayhum.push({x : msg.payload[i].date , y : msg.payload[i].primersensor});\n        arrayhum2.push({x : msg.payload[i].date , y : msg.payload[i].segundosensor});\n    }\n}\n    \nmsg.payload = [{\n        \"series\":[\"Sensor 1\", \"Sensor 2\"],\n        \"data\":[arrayhum, arrayhum2],\n        \"labels\":[\"\"]\n        }];\n\nreturn msg;  \n\n",
+        "outputs": "1",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 1880,
+        "wires": [
+            [
+                "4a99665ede5dd6e5"
+            ]
+        ]
+    },
+    {
+        "id": "40a94cdbe3c52f10",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "genera datos gráfica",
+        "func": "\nvar arrayhum=[];\nvar arrayhum2 = [];\n\n// los arrays usados en la represenstación gráfica deben contener objetos JSON con dos campos: {x , y}\n// en x debemos poner la hora en formato \"timestamp\". Si tenemos un objeto fecha se puede convertir usando el método getTime()\n// en y debemos poner el valor de la variable\n// mas info en: https://github.com/node-red/node-red-dashboard/blob/master/Charts.md\n\nif(Array.isArray(msg.payload) && msg.payload.length>0)\n{\n    for (var i = 0; i < msg.payload.length; i++) { // añade datos a los arrays\n        arrayhum.push({x : msg.payload[i].date , y : msg.payload[i].primersensor});\n        arrayhum2.push({x : msg.payload[i].date , y : msg.payload[i].segundosensor});\n    }\n}\n    \nmsg.payload = [{\n        \"series\":[\"Sensor 1\", \"Sensor 2\"],\n        \"data\":[arrayhum, arrayhum2],\n        \"labels\":[\"\"]\n        }];\n\nreturn msg;  \n\n",
+        "outputs": "1",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 2020,
+        "wires": [
+            [
+                "4a99665ede5dd6e5"
+            ]
+        ]
+    },
+    {
+        "id": "5c70acabef60b0f0",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.IP",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 940,
+        "y": 340,
+        "wires": [
+            [
+                "aca7de37fe34450b"
+            ]
+        ]
+    },
+    {
+        "id": "aca7de37fe34450b",
+        "type": "ui_text",
+        "z": "726c157e34a12d27",
+        "group": "e98df59828b48025",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "IP:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 1110,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "09e90703d546ace8",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "func": "msg.payload={};\nmsg.sort = {\"date\": -1};\nmsg.limit = 1 ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 1160,
+        "wires": [
+            [
+                "99b79fa6cb501ccc"
+            ]
+        ]
+    },
+    {
+        "id": "99b79fa6cb501ccc",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 480.3999938964844,
+        "y": 1190,
+        "wires": [
+            [
+                "2bb86c108ee3c9b6"
+            ]
+        ]
+    },
+    {
+        "id": "2268c7815c5ff3af",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "func": "var now_ms = new Date().getTime();\nnow_ms = now_ms+1,2e+6;\nvar fecha = msg.payload.getTime();\nvar dif = now_ms-fecha;\n\nif(dif > 0 )\nmsg.payload = \"Online\";\nelse\nmsg.payload = \"Offline\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 1180,
+        "wires": [
+            [
+                "f4fa2e90fa8a8e5d"
+            ]
+        ]
+    },
+    {
+        "id": "2bb86c108ee3c9b6",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[0].date",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 1180,
+        "wires": [
+            [
+                "2268c7815c5ff3af"
+            ]
+        ]
+    },
+    {
+        "id": "644228cce90c18ba",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 290,
+        "y": 3860,
+        "wires": [
+            [
+                "3bb4917cd5f4883e"
+            ]
+        ]
+    },
+    {
+        "id": "3bb4917cd5f4883e",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "func": "msg.payload=[{ $group : {_id:1, max1:{$max:\"$mensaje.hum1\"},max2:{$max:\"$mensaje.hum2\"}, max3:{$max:\"$mensaje.hum3\"},max4:{$max:\"$mensaje.hum4\"},min1:{$min:\"$mensaje.hum1\"},min2:{$min:\"$mensaje.hum2\"},min3:{$min:\"$mensaje.hum3\"},min4:{$min:\"$mensaje.hum4\"}, count:{$sum:1}  } }];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 3860,
+        "wires": [
+            [
+                "2b547dcd0471080c"
+            ]
+        ]
+    },
+    {
+        "id": "2b547dcd0471080c",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "aggregate",
+        "x": 660.3999938964844,
+        "y": 3890,
+        "wires": [
+            [
+                "85d8e910669538b5"
+            ]
+        ]
+    },
+    {
+        "id": "85d8e910669538b5",
+        "type": "debug",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 3880,
+        "wires": []
+    },
+    {
+        "id": "8752d319fe836806",
+        "type": "ui_switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Sensor 1",
+        "tooltip": "",
+        "group": "62f9642c6369c59a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 220,
+        "y": 500,
+        "wires": [
+            [
+                "9e8253a8fdb0f8b4"
+            ]
+        ]
+    },
+    {
+        "id": "9e8253a8fdb0f8b4",
+        "type": "switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 370,
+        "y": 500,
+        "wires": [
+            [
+                "2b15cd735ad77753"
+            ],
+            [
+                "ed6b90360501e1b9"
+            ]
+        ]
+    },
+    {
+        "id": "00d019511a466fa5",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[0].primersensor",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 460,
+        "wires": [
+            [
+                "4c081c2813c26387",
+                "3ddb96f62e095481"
+            ]
+        ]
+    },
+    {
+        "id": "6468ee5178888536",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 770,
+        "y": 460,
+        "wires": [
+            [
+                "00d019511a466fa5"
+            ]
+        ]
+    },
+    {
+        "id": "200c32a1079d7d90",
+        "type": "debug",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "4c081c2813c26387",
+        "type": "ui_gauge",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "ac2d03e4988b169c",
+        "order": 2,
+        "width": "4",
+        "height": "4",
+        "gtype": "wave",
+        "title": "SENSOR 1:",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 1170,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "ed6b90360501e1b9",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Valor=0",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 520,
+        "wires": [
+            [
+                "4c081c2813c26387"
+            ]
+        ]
+    },
+    {
+        "id": "971ddf2b121617e9",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 110,
+        "y": 460,
+        "wires": [
+            [
+                "8752d319fe836806"
+            ]
+        ]
+    },
+    {
+        "id": "2b15cd735ad77753",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Último dato",
+        "func": "msg.payload={};\nmsg.sort = {\"date\": -1};\nmsg.limit = 1 ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 480,
+        "wires": [
+            [
+                "6468ee5178888536"
+            ]
+        ]
+    },
+    {
+        "id": "1303ad0ce65a214d",
+        "type": "ui_switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Sensor 2",
+        "tooltip": "",
+        "group": "62f9642c6369c59a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 200,
+        "y": 680,
+        "wires": [
+            [
+                "84281ff6d273dfeb"
+            ]
+        ]
+    },
+    {
+        "id": "84281ff6d273dfeb",
+        "type": "switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 350,
+        "y": 680,
+        "wires": [
+            [
+                "24c63b87f76aba2d"
+            ],
+            [
+                "72d274569417c40d"
+            ]
+        ]
+    },
+    {
+        "id": "98c351b6eacb0a4c",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[0].segundosensor",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1020,
+        "y": 640,
+        "wires": [
+            [
+                "f754f7ab50648a3c"
+            ]
+        ]
+    },
+    {
+        "id": "3474c636ca1cc04a",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 750,
+        "y": 640,
+        "wires": [
+            [
+                "98c351b6eacb0a4c"
+            ]
+        ]
+    },
+    {
+        "id": "72d274569417c40d",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Valor=0",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 700,
+        "wires": [
+            [
+                "f754f7ab50648a3c"
+            ]
+        ]
+    },
+    {
+        "id": "3982eef188767c46",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 90,
+        "y": 640,
+        "wires": [
+            [
+                "1303ad0ce65a214d"
+            ]
+        ]
+    },
+    {
+        "id": "24c63b87f76aba2d",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Último dato",
+        "func": "msg.payload={};\nmsg.sort = {\"date\": -1};\nmsg.limit = 1 ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 660,
+        "wires": [
+            [
+                "3474c636ca1cc04a"
+            ]
+        ]
+    },
+    {
+        "id": "1956262198f89d5c",
+        "type": "ui_switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Sensor 3",
+        "tooltip": "",
+        "group": "62f9642c6369c59a",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 840,
+        "wires": [
+            [
+                "62dcc4ec88b59518"
+            ]
+        ]
+    },
+    {
+        "id": "62dcc4ec88b59518",
+        "type": "switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 330,
+        "y": 840,
+        "wires": [
+            [
+                "54a8e3f362d9b013"
+            ],
+            [
+                "bbada8110246d3c5"
+            ]
+        ]
+    },
+    {
+        "id": "f03726a41145b81a",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[0].tercersensor",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1000,
+        "y": 800,
+        "wires": [
+            [
+                "f2427c12f66a054e"
+            ]
+        ]
+    },
+    {
+        "id": "b75a4ed5a305f2e9",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 730,
+        "y": 800,
+        "wires": [
+            [
+                "f03726a41145b81a"
+            ]
+        ]
+    },
+    {
+        "id": "bbada8110246d3c5",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Valor=0",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 860,
+        "wires": [
+            [
+                "f2427c12f66a054e"
+            ]
+        ]
+    },
+    {
+        "id": "baa8c72d1430288c",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 90,
+        "y": 800,
+        "wires": [
+            [
+                "1956262198f89d5c"
+            ]
+        ]
+    },
+    {
+        "id": "54a8e3f362d9b013",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Último dato",
+        "func": "msg.payload={};\nmsg.sort = {\"date\": -1};\nmsg.limit = 1 ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 820,
+        "wires": [
+            [
+                "b75a4ed5a305f2e9"
+            ]
+        ]
+    },
+    {
+        "id": "861e7dda82140134",
+        "type": "ui_switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Sensor 4",
+        "tooltip": "",
+        "group": "62f9642c6369c59a",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 180,
+        "y": 1000,
+        "wires": [
+            [
+                "6c0c13466ae17507"
+            ]
+        ]
+    },
+    {
+        "id": "6c0c13466ae17507",
+        "type": "switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 330,
+        "y": 1000,
+        "wires": [
+            [
+                "fafe2f622c8eef2c"
+            ],
+            [
+                "12880bd78dd38de0"
+            ]
+        ]
+    },
+    {
+        "id": "8efdb4548103b242",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[0].cuartosensor",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1000,
+        "y": 960,
+        "wires": [
+            [
+                "e2e799dfe981e60d"
+            ]
+        ]
+    },
+    {
+        "id": "8ab9906dd25fda20",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 730,
+        "y": 960,
+        "wires": [
+            [
+                "8efdb4548103b242"
+            ]
+        ]
+    },
+    {
+        "id": "12880bd78dd38de0",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Valor=0",
+        "func": "msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 1020,
+        "wires": [
+            [
+                "e2e799dfe981e60d"
+            ]
+        ]
+    },
+    {
+        "id": "ed898c7c1f0e302e",
+        "type": "inject",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 70,
+        "y": 960,
+        "wires": [
+            [
+                "861e7dda82140134"
+            ]
+        ]
+    },
+    {
+        "id": "fafe2f622c8eef2c",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "Último dato",
+        "func": "msg.payload={};\nmsg.sort = {\"date\": -1};\nmsg.limit = 1 ;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 980,
+        "wires": [
+            [
+                "8ab9906dd25fda20"
+            ]
+        ]
+    },
+    {
+        "id": "f754f7ab50648a3c",
+        "type": "ui_gauge",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "ac2d03e4988b169c",
+        "order": 2,
+        "width": "4",
+        "height": "4",
+        "gtype": "wave",
+        "title": "SENSOR 2:",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 1170,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "f2427c12f66a054e",
+        "type": "ui_gauge",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "ac2d03e4988b169c",
+        "order": 2,
+        "width": "4",
+        "height": "4",
+        "gtype": "wave",
+        "title": "SENSOR 3:",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 1150,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "e2e799dfe981e60d",
+        "type": "ui_gauge",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "group": "ac2d03e4988b169c",
+        "order": 2,
+        "width": "4",
+        "height": "4",
+        "gtype": "wave",
+        "title": "SENSOR 4:",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 1150,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "2661cc00344f3a0e",
+        "type": "ui_numeric",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Humedad 0%: ",
+        "tooltip": "",
+        "group": "cee302c54243b49a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "className": "",
+        "x": 100,
+        "y": 120,
+        "wires": [
+            [
+                "d4d33c2860c1440b"
+            ]
+        ]
+    },
+    {
+        "id": "d4d33c2860c1440b",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "humedad0",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 80,
+        "wires": [
+            [
+                "896e880718423d1c"
+            ]
+        ]
+    },
+    {
+        "id": "fd3c74c6294b1bca",
+        "type": "ui_numeric",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "label": "Humedad 100%: ",
+        "tooltip": "",
+        "group": "cee302c54243b49a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "className": "",
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "54290227c9af3f14"
+            ]
+        ]
+    },
+    {
+        "id": "54290227c9af3f14",
+        "type": "change",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "humedad100",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 220,
+        "wires": [
+            [
+                "896e880718423d1c"
+            ]
+        ]
+    },
+    {
+        "id": "6eb4b0ed007caf19",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "ultimo registro",
+        "func": "msg.mensaje=msg.payload;\nmsg.limit=1;\nmsg.sort={\"date\":-1};\nmsg.payload={};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 2540,
+        "wires": [
+            [
+                "558555d092865711"
+            ]
+        ]
+    },
+    {
+        "id": "a1b2367eaadc28ec",
+        "type": "telegram command",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "command": "/Sensor2",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "dd877e6d33e40be2",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 160,
+        "y": 2500,
+        "wires": [
+            [
+                "6eb4b0ed007caf19"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "e7453d0f6b9f8c48",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "mensaje respuesta",
+        "func": "\nvar humedad = msg.payload[0].segundosensor\nvar fecha=msg.payload[0].date;\n\nmsg.payload=msg.mensaje;\n\nmsg.payload.content=\"La humedad es de \" +humedad+\"%\\n\";\nmsg.payload.content+=\"Fecha de consulta: \"+fecha.toLocaleString('es-ES', { timeZone: 'Europe/Madrid', hour12: false });\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 2540,
+        "wires": [
+            [
+                "7bcd19ea81a9f49c"
+            ]
+        ]
+    },
+    {
+        "id": "558555d092865711",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 530,
+        "y": 2480,
+        "wires": [
+            [
+                "e7453d0f6b9f8c48"
+            ]
+        ]
+    },
+    {
+        "id": "d6c22943704f459a",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "ultimo registro",
+        "func": "msg.mensaje=msg.payload;\nmsg.limit=1;\nmsg.sort={\"date\":-1};\nmsg.payload={};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 2660,
+        "wires": [
+            [
+                "59bdfa4fc17ad939"
+            ]
+        ]
+    },
+    {
+        "id": "95924bcbd7d35c6b",
+        "type": "telegram command",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "command": "/Sensor3",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "dd877e6d33e40be2",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 160,
+        "y": 2620,
+        "wires": [
+            [
+                "d6c22943704f459a"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "192cdb7136ee85f1",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "mensaje respuesta",
+        "func": "\nvar humedad = msg.payload[0].tercersensor;\nvar fecha=msg.payload[0].date;\n\nmsg.payload=msg.mensaje;\n\nmsg.payload.content=\"La humedad es de \" +humedad+\"%\\n\";\nmsg.payload.content+=\"Fecha de consulta: \"+fecha.toLocaleString('es-ES', { timeZone: 'Europe/Madrid', hour12: false });\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 2660,
+        "wires": [
+            [
+                "7bcd19ea81a9f49c"
+            ]
+        ]
+    },
+    {
+        "id": "59bdfa4fc17ad939",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 530,
+        "y": 2600,
+        "wires": [
+            [
+                "192cdb7136ee85f1"
+            ]
+        ]
+    },
+    {
+        "id": "acc0c3a3b1a97cd9",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "ultimo registro",
+        "func": "msg.mensaje=msg.payload;\nmsg.limit=1;\nmsg.sort={\"date\":-1};\nmsg.payload={};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 2760,
+        "wires": [
+            [
+                "2e0f0f1eecde7afe"
+            ]
+        ]
+    },
+    {
+        "id": "48c7370da96fdd89",
+        "type": "telegram command",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "command": "/Sensor4",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "dd877e6d33e40be2",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 160,
+        "y": 2720,
+        "wires": [
+            [
+                "acc0c3a3b1a97cd9"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "861b4bc2ad32fcaa",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "mensaje respuesta",
+        "func": "\nvar humedad = msg.payload[0].cuartosensor;\nvar fecha=msg.payload[0].date;\n\nmsg.payload=msg.mensaje;\n\nmsg.payload.content=\"La humedad es de \" +humedad+\"%\\n\";\nmsg.payload.content+=\"Fecha de consulta: \"+fecha.toLocaleString('es-ES', { timeZone: 'Europe/Madrid', hour12: false });\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 2760,
+        "wires": [
+            [
+                "7bcd19ea81a9f49c"
+            ]
+        ]
+    },
+    {
+        "id": "2e0f0f1eecde7afe",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 530,
+        "y": 2700,
+        "wires": [
+            [
+                "861b4bc2ad32fcaa"
+            ]
+        ]
+    },
+    {
+        "id": "41e1db5e5a8874e1",
+        "type": "link in",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "links": [
+            "0cdbbf713cb076e6"
+        ],
+        "x": 845,
+        "y": 2220,
+        "wires": [
+            [
+                "650d9fe102eaf210"
+            ]
+        ]
+    },
+    {
+        "id": "0cdbbf713cb076e6",
+        "type": "link out",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "41e1db5e5a8874e1"
+        ],
+        "x": 375,
+        "y": 1320,
+        "wires": []
+    },
+    {
+        "id": "650d9fe102eaf210",
+        "type": "switch",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 950,
+        "y": 2220,
+        "wires": [
+            [
+                "2636ca588bb5c04c"
+            ]
+        ]
+    },
+    {
+        "id": "3eb425dc08082693",
+        "type": "function",
+        "z": "726c157e34a12d27",
+        "name": "mensaje respuesta",
+        "func": "msg.payload = {\n    chatId: 2126197835,\n    type : \"message\",\n    content : \"¡La humedad es superior al límite establecido!\\n\"\n\n}\n//var humedad = msg.payload[0].primersensor\n//var fecha=msg.payload[0].date;\n\n//msg.payload=msg.mensaje;\n\n//msg.payload.content=\"¡La humedad es superior al límite establecido!\\n\";\n//msg.payload.content+=\"Fecha en la que se ha superado el límite: \"+fecha.toLocaleString('es-ES', { timeZone: 'Europe/Madrid', hour12: false });\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 2320,
+        "wires": [
+            [
+                "6526a64504e37941"
+            ]
+        ]
+    },
+    {
+        "id": "2636ca588bb5c04c",
+        "type": "mongodb in",
+        "z": "726c157e34a12d27",
+        "mongodb": "acda953ba7305168",
+        "name": "",
+        "collection": "HUMEDAD",
+        "operation": "find",
+        "x": 1110,
+        "y": 2240,
+        "wires": [
+            [
+                "3eb425dc08082693"
+            ]
+        ]
+    },
+    {
+        "id": "6526a64504e37941",
+        "type": "telegram sender",
+        "z": "726c157e34a12d27",
+        "name": "",
+        "bot": "dd877e6d33e40be2",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1370,
+        "y": 2320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6a53cd41e425c5ec",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Calculo de la humedad e introducción de los datos en la base de datos",
+        "info": "",
+        "x": 270,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "3fb959b5b3c3e4d6",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Representación del último valor de cada uno de los sensores",
+        "info": "",
+        "x": 240,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "3f9f82c5e276d88a",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Comprobación del estado de conexión del dispositivo",
+        "info": "",
+        "x": 240,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "e78ecc7f1cc2ddbc",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Alarma si se supera un límite establecido",
+        "info": "",
+        "x": 180,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "802e34e9016ba507",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Gráficas respecto a la base de datos",
+        "info": "",
+        "x": 180,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "90af3deaf4089220",
+        "type": "comment",
+        "z": "726c157e34a12d27",
+        "name": "Control por Telegram",
+        "info": "",
+        "x": 130,
+        "y": 2160,
+        "wires": []
+    },
+    {
+        "id": "fc5c9554.5f0878",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e98df59828b48025",
+        "type": "ui_group",
+        "name": "DISPOSITIVO",
+        "tab": "99921f739e84860f",
+        "order": 1,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "cee302c54243b49a",
+        "type": "ui_group",
+        "name": "Parámetros",
+        "tab": "6dc1f7d57d8cdb0e",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "acda953ba7305168",
+        "type": "mongodb",
+        "hostname": "127.0.0.1",
+        "topology": "direct",
+        "connectOptions": "",
+        "port": "27017",
+        "db": "HumedadIoT",
+        "name": ""
+    },
+    {
+        "id": "dd877e6d33e40be2",
+        "type": "telegram bot",
+        "botname": "HumedadHuerta_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "e9ce9b57afa10f3e",
+        "type": "ui_group",
+        "name": "Últimos Valores",
+        "tab": "aa3a7eb7c057e7b0",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1ac9c6af567b4ba5",
+        "type": "ui_group",
+        "name": "REGISTRO",
+        "tab": "aa3a7eb7c057e7b0",
+        "order": 1,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c9d87a424739d845",
+        "type": "ui_group",
+        "name": "Grupo Descarga",
+        "tab": "aa3a7eb7c057e7b0",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "62f9642c6369c59a",
+        "type": "ui_group",
+        "name": "Sensores Activos",
+        "tab": "6dc1f7d57d8cdb0e",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ac2d03e4988b169c",
+        "type": "ui_group",
+        "name": "SENSOR",
+        "tab": "99921f739e84860f",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "99921f739e84860f",
+        "type": "ui_tab",
+        "name": "DATOS",
+        "icon": "dashboard",
+        "order": 5,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "6dc1f7d57d8cdb0e",
+        "type": "ui_tab",
+        "name": "CONFIGURACIÓN",
+        "icon": "dashboard",
+        "order": 7,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "aa3a7eb7c057e7b0",
+        "type": "ui_tab",
+        "name": "HISTÓRICO",
+        "icon": "dashboard",
+        "order": 6,
+        "disabled": false,
+        "hidden": false
+    }
+]
