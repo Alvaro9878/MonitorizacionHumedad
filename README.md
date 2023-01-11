@@ -14,7 +14,7 @@ Para desarrollar el sistema se necesita los siguientes dispositivos:
     - Cargador/Booster solar 5V de DFRobot DFR0559
     - 2 placas fotovoltaicas de 6V cada una
     
-    ![Uploading image.png…]()
+   (https://github.com/Alvaro9878/MonitorizacionHumedad/blob/main/Esquem%C3%A1tico.JPG)
 
     
 ## Autores
